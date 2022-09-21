@@ -8,6 +8,7 @@ public class ScoreSystem : MonoBehaviour
   
     public EnemyPush script;
     public TextMesh ScoreText;
+    public int Playerscore=0;
 
     // Start is called before the first frame update
     void Start()
@@ -17,9 +18,12 @@ public class ScoreSystem : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-
+        if (this.gameObject.name=="Player")
+        {
+            Playerscore = script.score;
+        }
         ScoreText.text = script.score.ToString();
 
 

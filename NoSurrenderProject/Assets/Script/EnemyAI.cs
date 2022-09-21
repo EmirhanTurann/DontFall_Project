@@ -32,7 +32,7 @@ public class EnemyAI : MonoBehaviour
                 closetEnemy = currentEnemy;
             }
             Debug.DrawLine(this.transform.position, closetEnemy.transform.position);
-            Debug.Log("object " + closetEnemy + " distance" + distanceToClosetEnemy + " thisobject " + this.gameObject.name);
+            
             if (distanceToClosetEnemy > 0.2f)
             {
                 EnemyTransform = closetEnemy.transform;
@@ -50,12 +50,15 @@ public class EnemyAI : MonoBehaviour
             StartCoroutine(ExampleCoroutine001());
             IEnumerator
                ExampleCoroutine001()
-            {
-
-                yield return new
-                    WaitForSeconds(0.5f);
+            { 
                 GetComponent<NavMeshAgent>().enabled = false;
             GetComponent<Rigidbody>().freezeRotation = false;
+
+                yield return new
+                    WaitForSeconds(1.5f);
+                GetComponent<NavMeshAgent>().enabled = true;
+                GetComponent<Rigidbody>().freezeRotation = true;
+
             }
         }
       
@@ -64,15 +67,32 @@ public class EnemyAI : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "FallArea")
+        /*if (other.gameObject.tag == "FallArea")
         {
-            other.attachedRigidbody.AddForce(other.transform.forward * 50);
+            other.attachedRigidbody.AddForce(other.transform.forward * 100);
             GetComponent<NavMeshAgent>().enabled = true;
             GetComponent<Rigidbody>().freezeRotation = true;
 
+        }*/
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "FallArea")
+        {
+            StartCoroutine(ExampleCoroutine001());
+            IEnumerator
+               ExampleCoroutine001()
+            {
+
+                yield return new
+                    WaitForSeconds(0.5f);
+                other.attachedRigidbody.AddForce(other.transform.forward * 100);
+                GetComponent<NavMeshAgent>().enabled = true;
+                GetComponent<Rigidbody>().freezeRotation = true;
+            }
         }
     }
-    
+
 
 
 

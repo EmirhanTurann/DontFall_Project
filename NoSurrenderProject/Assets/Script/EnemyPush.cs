@@ -9,13 +9,9 @@ public class EnemyPush : MonoBehaviour
     public string LastObjectName;
     public int score;
 
-    private void Update()
-    {
-        Debug.Log(this.gameObject.name+" Puan "+score);
-    }
 
-
-
+    
+    
     void push() 
     {
 
@@ -39,16 +35,5 @@ public class EnemyPush : MonoBehaviour
         }
        
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "FallArea")
-        {
-          // Destroy(this.gameObject);
-           
-            
-
-
-
-        }
-    }
+    
 }

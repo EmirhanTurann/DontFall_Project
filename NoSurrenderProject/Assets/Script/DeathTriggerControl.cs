@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathTriggerControl : PauseAndResumeSystem
+public class DeathTriggerControl : UISystem
 {
     
     public EnemyPush[] allEnemies;
+    public ScoreSystem script;
    
    // public PauseAndResumeSystem script;
     
@@ -20,36 +21,38 @@ public class DeathTriggerControl : PauseAndResumeSystem
     {
         allEnemies = GameObject.FindObjectsOfType<EnemyPush>();
     }
-
+   
+    // What will happen if the character falls down
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "karakter")
+        if (other.gameObject.name == "Player")
         {
-            LoseHighScoreText.text = Highscore.ToString();
+            
+            LoseHighScoreText.text = script.Playerscore.ToString();
             LosePanel.gameObject.SetActive(true);
-            WinCamera.SetActive(true);
-            WinCamera.transform.position = Player.gameObject.transform.position = new Vector3(Player.gameObject.transform.position.x, Player.gameObject.transform.position.y + 1, -Player.gameObject.transform.position.z - 5);
+            spectateCamera.SetActive(true);
             Player = null;
-            SpectateButton.gameObject.SetActive(true);
+           
             
 
         }
+        //The part that adds points to the person who dropped the character.
         if (other.gameObject.tag=="Enemy")
         {
-            
-           
-
-            
             for (int i = 0; i < allEnemies.Length-1; i++)
             {
              if (allEnemies[i].LastObjectName.ToString() == other.gameObject.name.ToString())
               {
                     allEnemies[i].score++;
-                    
+                    break;
 
                 }
                 
             }
+           
+
+            
+            
             
             Destroy(other.gameObject);
             
