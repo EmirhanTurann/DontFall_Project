@@ -18,12 +18,14 @@ public class UISystem : MonoBehaviour
     public Text Seconds_Text;
     public Text WinHighScoreText;
     public Text LoseHighScoreText;
+    public Text SurvivorsCountText;
 
     public float Seconds = 30;
     public int Highscore = 0;
     
     public EnemyPush[] LastEnemies;
     public ScoreSystem script;
+    public CollectObjectSpawn script2;
     
     public GameObject Player;
     public GameObject WinPlayer;
@@ -32,13 +34,16 @@ public class UISystem : MonoBehaviour
     void Start()
     {
         Seconds_Text.gameObject.SetActive(false);
+        SurvivorsCountText.gameObject.SetActive(false);
         pause();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-       
+        EnemyPush[] LastEnemies = GameObject.FindObjectsOfType<EnemyPush>();
+        SurvivorsCountText.text = LastEnemies.Length.ToString();
+      
        
         LastOne();
       
@@ -102,11 +107,7 @@ public class UISystem : MonoBehaviour
             pause();
             LoseTime›sUp.gameObject.SetActive(true);
         }
-        
-        
-        
-       
-      
+ 
         
     }
     void LastOne()
@@ -142,7 +143,10 @@ public class UISystem : MonoBehaviour
         Time.timeScale = 1;
         panel.gameObject.SetActive(false);
         Seconds_Text.gameObject.SetActive(true);
+        SurvivorsCountText.gameObject.SetActive(true);
         StartCoroutine(time());
+        StartCoroutine(script2.SpawnCollectObject()); 
+
         
 
 

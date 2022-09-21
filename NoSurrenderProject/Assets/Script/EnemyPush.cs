@@ -10,8 +10,8 @@ public class EnemyPush : MonoBehaviour
     public int score;
 
 
-    
-    
+
+    //This function makes characters push each other
     void push() 
     {
 
@@ -22,6 +22,7 @@ public class EnemyPush : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        
         if (collision.gameObject.tag == "Enemy")
         {
             

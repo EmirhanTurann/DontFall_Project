@@ -12,9 +12,11 @@ public class EnemyAI : MonoBehaviour
     {
         EnemyNavMesh = GetComponent<NavMeshAgent>();
     }
-    private void Update()
+
+    private void FixedUpdate()
     {
         findClosetEnemy();
+       
     }
     void findClosetEnemy()
     {
@@ -33,7 +35,7 @@ public class EnemyAI : MonoBehaviour
             }
             Debug.DrawLine(this.transform.position, closetEnemy.transform.position);
             
-            if (distanceToClosetEnemy > 0.2f)
+            if (distanceToClosetEnemy > 0f)
             {
                 EnemyTransform = closetEnemy.transform;
                 EnemyNavMesh.destination = EnemyTransform.transform.position;
@@ -55,7 +57,7 @@ public class EnemyAI : MonoBehaviour
             GetComponent<Rigidbody>().freezeRotation = false;
 
                 yield return new
-                    WaitForSeconds(1.5f);
+                    WaitForSeconds(3f);
                 GetComponent<NavMeshAgent>().enabled = true;
                 GetComponent<Rigidbody>().freezeRotation = true;
 
@@ -65,33 +67,7 @@ public class EnemyAI : MonoBehaviour
 
         
     }
-    private void OnTriggerStay(Collider other)
-    {
-        /*if (other.gameObject.tag == "FallArea")
-        {
-            other.attachedRigidbody.AddForce(other.transform.forward * 100);
-            GetComponent<NavMeshAgent>().enabled = true;
-            GetComponent<Rigidbody>().freezeRotation = true;
-
-        }*/
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "FallArea")
-        {
-            StartCoroutine(ExampleCoroutine001());
-            IEnumerator
-               ExampleCoroutine001()
-            {
-
-                yield return new
-                    WaitForSeconds(0.5f);
-                other.attachedRigidbody.AddForce(other.transform.forward * 100);
-                GetComponent<NavMeshAgent>().enabled = true;
-                GetComponent<Rigidbody>().freezeRotation = true;
-            }
-        }
-    }
+    
 
 
 

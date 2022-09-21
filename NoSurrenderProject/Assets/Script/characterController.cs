@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class characterController : MonoBehaviour
 {
-    public Touch _touch;
-    public bool _dragStarted;
-    private Vector3 _touchDown;
-    private Vector3 _touchUp;
+    public Touch touch;
+    public bool startMove;
+    private Vector3 touchLast;
+    private Vector3 touchFirst;
    
     // Start is called before the first frame update
     void Start()
@@ -23,29 +23,29 @@ public class characterController : MonoBehaviour
         
         if (Input.touchCount > 0)
         {
-            _touch = Input.GetTouch(0);
+            touch = Input.GetTouch(0);
 
-            if (_touch.phase == TouchPhase.Began)
+            if (touch.phase == TouchPhase.Began)
             {
-                
-                _dragStarted = true;
+
+                startMove = true;
                 /*_isMoving = true;*/
-                _touchUp = _touch.position;
-                _touchDown = _touch.position;
+                touchLast = touch.position;
+                touchFirst = touch.position;
                 
             }
-            if (_dragStarted)
+            if (startMove)
             {
-                if (_touch.phase == TouchPhase.Moved)
+                if (touch.phase == TouchPhase.Moved)
                 {
-                    _touchDown = _touch.position;
+                    touchFirst = touch.position;
                 }
 
-                if (_touch.phase == TouchPhase.Ended)
+                if (touch.phase == TouchPhase.Ended)
                 {
-                    _touchDown = _touch.position;
+                    touchFirst = touch.position;
                     //  _isMoving = false;
-                    _dragStarted = false;
+                    startMove = false;
                 }
                 gameObject.transform.rotation = Quaternion.RotateTowards(transform.rotation, CalculateRotation(), 500 * Time.deltaTime);
                 gameObject.transform.Translate(Vector3.forward * Time.deltaTime * 5);
@@ -64,7 +64,7 @@ public class characterController : MonoBehaviour
     }
     Vector3 CalculateDirection()
     {
-        Vector3 temp = (_touchDown - _touchUp);
+        Vector3 temp = (touchFirst - touchLast);
         
         temp.z = temp.y;
         temp.y = 0;
